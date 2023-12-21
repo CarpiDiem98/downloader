@@ -13,24 +13,16 @@ def generate_from_playlist(playlist: Playlist):
                 "url": url,
             }
         )
-    logger.info(f"Generate {len(annotations)} videos")
+    logger.info(f"Generate {len(annotations)} videos annotations")
     return annotations
 
 
 def generate_from_video(video: YouTube):
-    annotations = []
-    annotations.append(
+    annotations = [
         {
             "title": std_str(video.title),
             "url": video.watch_url,
         }
-    )
-    logger.info(f"Generate videos")
+    ]
+    logger.info(f"Generate video annotations")
     return annotations
-
-
-def check_url(url):
-    try:
-        return Playlist(url)
-    except KeyError:
-        return YouTube(url)
