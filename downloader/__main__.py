@@ -1,9 +1,5 @@
 from downloader.parser.args import init_parser
-from downloader.annotations import (
-    check_url,
-    generate_from_playlist,
-    generate_from_video,
-)
+from downloader.annotations import generate_from_playlist, generate_from_video
 from downloader.utils.json_crud import create_json, read_json
 from downloader.utils.utils import (
     compare_and_merge_lists,
@@ -14,27 +10,30 @@ from downloader.downloader.downloader import Downloader
 from downloader.logger.logger import logger
 from pytube import Playlist, YouTube
 import os
+from downloader.constants import (
+    WELCOME,
+    END,
+    ALL_DOWNLOADED,
+    NOT_JSON_FILE,
+    NO_URL_PROVIDED,
+    JSON_FOUND_MERGING,
+    NO_URL_PROVIDED,
+    NO_DOWNLOAD_FLAG,
+)
+
 
 if __name__ == "__main__":
-    logger.info(
-        """
-      ___________________
-     |Starting Downloader|
-     |v0.0.1             |
-     |by: Carpi          |
-     |___________________|
-    """
-    )
     args = init_parser()
+    logger.info(WELCOME)
     if args.url:
-        if check_url(args.url) is Playlist:
+        logger.info(f"URL provided: {args.url}")
+        if args.type == "playlist":
             playlist = generate_from_playlist(Playlist(args.url))
-        else:  # is YouTube
+        else:
             playlist = generate_from_video(YouTube(args.url))
 
-        # merge all the videos in one list
         if os.path.isfile(args.file_json):
-            logger.info(f"{args.file_json} already exists")
+            logger.info(JSON_FOUND_MERGING)
             merged_playlist = compare_and_merge_lists(
                 read_json(args.file_json), playlist
             )
@@ -42,14 +41,13 @@ if __name__ == "__main__":
         else:
             create_json(args.file_json, playlist)
     else:
-        logger.info("No URL provided, check file json")
+        logger.info(NO_URL_PROVIDED)
         if os.path.isfile(args.file_json):
-            logger.info(f"{args.file_json} already exists")
             playlist = read_json(args.file_json)
             playlist = compare_and_merge_lists(read_json(args.file_json), playlist)
             create_json(args.file_json, playlist)
         else:
-            logger.info("No json file found, please provide an url or check --help")
+            logger.info(NOT_JSON_FILE)
 
     if args.download:
         missing_videos = compare_list_to_folder(
@@ -61,4 +59,8 @@ if __name__ == "__main__":
             for video in missing_videos:
                 Downloader(video["url"], args.output_path).download_yt()
         else:
-            logger.info("All videos are already downloaded")
+            logger.info(ALL_DOWNLOADED)
+    else:
+        logger.info(NO_DOWNLOAD_FLAG)
+
+    logger.info(END)
