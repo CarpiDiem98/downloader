@@ -1,4 +1,4 @@
-from pytube import Playlist
+from pytube import Playlist, YouTube
 from downloader.logger.logger import logger
 
 
@@ -15,3 +15,7 @@ def generate_playlist(playlist_url):
         )
     logger.info(f"Find {len(annotations)} videos")
     return annotations
+
+
+def download_yt(url, output_path):
+    pass
