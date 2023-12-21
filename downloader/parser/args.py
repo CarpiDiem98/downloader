@@ -15,4 +15,11 @@ def init_parser():
         help="path to the json file",
     )
 
+    parser.add_argument(
+        "--download",
+        type=bool,
+        default=False,
+        help="download the videos",
+    )
+
     return parser.parse_args()
