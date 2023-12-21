@@ -11,19 +11,10 @@ def make_directory(directory):
 
 
 def compare_and_merge_lists(old, new):
-    # Confronta le liste
     if old != new:
         return old + new
     else:
         return new
-
-
-def compare_list_to_folder(list, folder):
-    videos_in_folder = os.listdir(folder)
-
-    return [
-        item["title"] for item in list if f"{item['title']}.mp4" not in videos_in_folder
-    ]
 
 
 def compare_list_to_folder(list, folder):
