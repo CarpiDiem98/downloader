@@ -5,16 +5,22 @@ import json
 
 def create_json(file_json, annotations):
     logger.info(f"Create new {file_json}")
-    with open(file_json, "w") as outfile:
-        json.dump(annotations, outfile)
+    try:
+        with open(file_json, "w") as outfile:
+            json.dump(annotations, outfile)
+    except FileNotFoundError as e:
+        logger.error(e)
     logger.info(f"{file_json} created")
 
 
 def append_json(file_json, annotations):
     data = read_json(file_json)
     data.extend(annotations)
-    with open(file_json, "w") as outfile:
-        json.dump(data, outfile)
+    try:
+        with open(file_json, "w") as outfile:
+            json.dump(data, outfile)
+    except FileNotFoundError as e:
+        logger.error(e)
 
     logger.info(f"{file_json} updated")
 
