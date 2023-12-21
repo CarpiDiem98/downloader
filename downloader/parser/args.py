@@ -9,15 +9,14 @@ def init_parser():
         help="url of the video or playlist",
     )
     parser.add_argument(
-        "--generate_json",
-        type=bool,
-        default=True,
-        help="generate the json file",
+        "--type",
+        type=str,
+        default="playlist",
+        help="type of the url",
     )
     parser.add_argument(
         "--download",
-        type=bool,
-        default=False,
+        action="store_true",
         help="download the videos",
     )
     parser.add_argument(
