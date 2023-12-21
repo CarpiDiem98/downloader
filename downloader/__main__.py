@@ -20,3 +20,8 @@ if __name__ == "__main__":
     else:
         logger.info(f"{args.file_json} does not exists")
         create_json(args.file_json, playlist)
+
+    if args.download:
+        logger.info(f"Downloading videos from {args.file_json}")
+        for url in playlist:
+            video = url.streams.first().download()
