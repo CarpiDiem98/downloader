@@ -1,5 +1,6 @@
 import json
 from downloader.logger.logger import logger
+import os
 
 
 def create_json(file_json, annotations):
@@ -23,3 +24,11 @@ def read_json(file_json):
     with open(file_json, "r") as infile:
         data = json.load(infile)
     return data
+
+
+def make_directory(directory):
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+        logger.info(f"{directory} created")
+    else:
+        logger.info(f"{directory} folder already exists")
