@@ -32,5 +32,17 @@ def init_parser():
         required=False,
         help="path to the json file",
     )
+    parser.add_argument(
+        "--transcribe",
+        type=bool,
+        default=False,
+        help="transcribe the audio inside the video",
+    )
+    parser.add_argument(
+        "--model_dimension",
+        type=str,
+        default="base",
+        help="model dimension",
+    )
 
     return parser.parse_args()
