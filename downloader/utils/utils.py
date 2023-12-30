@@ -42,4 +42,5 @@ def std_str(string: str):
         .replace("-", "_")
         .replace("⧸", "_")
         .replace("｜", "")
+        .replace("|", "")
     )
