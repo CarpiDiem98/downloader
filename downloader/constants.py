@@ -38,7 +38,6 @@ NO_DOWNLOAD_FLAG = """
      _______________________________
     |                               |
     |  No download flag provided.   |
-    |  All processes finished.      |
     |  For help, use --help module  |
     |_______________________________|
 """
@@ -56,4 +55,24 @@ JSON_FOUND_MERGING = """
     |  Json file found.             |
     |  Merging lists...             |
     |_______________________________|
+"""
+TRANSCRIPT_FLAG = """
+     _______________________________
+    |                               |
+    |  Starting video transcription |
+    |  Please wait...               |
+    |_______________________________|
+"""
+DOWNLOADING_VIDEOS_MESSAGE = """
+     _______________________________
+    |                               |
+    |  Downloading  {} videos        |
+    |  Please wait...               |
+    |_______________________________|
+"""
+JSON_FOUND = """
+         _______________________________
+        |                               |
+        |  Json file found.             |
+        |_______________________________|
 """
