@@ -16,13 +16,14 @@ def init_parser():
     )
     parser.add_argument(
         "--download",
-        action="store_true",
+        type=bool,
+        default=False,
         help="download the videos",
     )
     parser.add_argument(
         "--output_path",
         type=str,
-        default="output",
+        default="output/",
         help="output path",
     )
     parser.add_argument(
