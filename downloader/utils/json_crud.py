@@ -10,7 +10,6 @@ def create_json(file_json, annotations):
             json.dump(annotations, outfile)
     except FileNotFoundError as e:
         logger.error(e)
-    logger.info(f"{file_json} created")
 
 
 def append_json(file_json, annotations):
@@ -26,7 +25,6 @@ def append_json(file_json, annotations):
 
 
 def read_json(file_json) -> List[Dict]:
-    logger.info(f"Read {file_json}")
     try:
         with open(file_json, "r") as infile:
             data = json.load(infile)
