@@ -6,82 +6,81 @@ import os
 from downloader.utils.utils import std_str
 
 
-class Downloader:
-    def __init__(self, url, output_path) -> None:
-        self.output_path = output_path
-        self.url = url
+def download_audio(url, output_path):
+    ydl_opts = {
+        "format": "bestaudio",
+        "outtmpl": output_path + "%(title)s.%(ext)s",
+        "postprocessors": [
+            {
+                "key": "FFmpegExtractAudio",
+                "preferredcodec": "mp3",
+                "preferredquality": "192",
+            },
+        ],
+    }
 
-    def __download_yt_audio(self):
-        ydl_opts = {
-            "format": "bestvideo+bestaudio/best",
-            "verbose": True,
-            "outtmpl": self.output_path + "%(title)s.%(ext)s",
-            "postprocessors": [
-                {
-                    "key": "FFmpegExtractAudio",
-                    "preferredcodec": "mp3",
-                    "preferredquality": "192",
-                },
-            ],
-        }
+    if isinstance(url, list):
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            ydl.download(url)
+    else:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info_dict = ydl.extract_info(url)
+            ydl.download([url])
 
-        if self.url is list:
-            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                ydl.download(self.url)
-        else:
-            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                info_dict = ydl.extract_info(self.url)
-                ydl.download([self.url])
 
-        self.aud = os.path.join(self.output_path, std_str(info_dict["title"]))
+def download_video(url, output_path):
+    ydl_opts = {
+        "format": "bestvideo",
+        "outtmpl": output_path + "%(title)s.%(ext)s",
+        "postprocessors": [
+            {
+                "key": "FFmpegVideoConvertor",
+                "preferedformat": "mp4",
+            }
+        ],
+    }
+    if isinstance(url, list):
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            ydl.download(url)
+    else:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info_dict = ydl.extract_info(url)
+            ydl.download([url])
 
-    def __download_yt_video(self):
-        ydl_opts = {
-            "format": "bestvideo+bestaudio/best",
-            "verbose": True,
-            "outtmpl": self.output_path + "%(title)s.%(ext)s",
-            "postprocessors": [
-                {
-                    "key": "FFmpegVideoConvertor",
-                    "preferedformat": "mp4",
-                }
-            ],
-        }
-        if self.url is list:
-            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                ydl.download(self.url)
-        else:
-            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                info_dict = ydl.extract_info(self.url)
-                ydl.download([self.url])
+    vid = os.path.join(output_path, std_str(info_dict["title"]))
+    return vid
 
-        self.vid = os.path.join(self.output_path, std_str(info_dict["title"]))
 
-    def __combine_audio_video(self):
-        try:
-            logger.info("Combine audio and video")
-            input_video = ffmpeg.input(self.vid)
-            input_audio = ffmpeg.input(self.aud)
+def rename_files(output_path):
+    files = os.listdir(output_path)
+    for file in files:
+        old_file_path = os.path.join(output_path, file)
+        new_file_path = os.path.join(output_path, std_str(file))
+        os.rename(old_file_path, new_file_path)
 
-            output = ffmpeg.output(
-                input_video.video,
-                input_audio.audio,
-                self.output_path,
-                vcodec="copy",
-                acodec="libmp3lame",
-            )
-            output.run()
-            output.close()
 
-            logger.info("Remove audio and video files")
-            os.remove(self.aud)
-            os.remove(self.vid)
+def download_yt(url, output_path):
+    download_audio(url, output_path)
+    rename_files(output_path)
 
-        except ffmpeg.Error as e:
-            logger.error(e)
 
-    def download_yt(self):
-        self.__download_yt_audio()
-        self.__download_yt_video()
-        self.__combine_audio_video()
-        logger.info('Done!')
+def combine_aud_vid(aud, vid, output_path):
+    try:
+        input_video = ffmpeg.input(vid)
+        input_audio = ffmpeg.input(aud)
+
+        output = ffmpeg.output(
+            input_video.video,
+            input_audio.audio,
+            output_path,
+            vcodec="copy",
+            acodec="libmp3lame",
+        )
+        output.run()
+        output.close()
+
+        os.remove(aud)
+        os.remove(vid)
+
+    except ffmpeg.Error as e:
+        logger.error(e)
