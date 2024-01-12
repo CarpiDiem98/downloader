@@ -29,6 +29,7 @@ from downloader.constants import (
 
 if __name__ == "__main__":
     args = init_parser()
+
     logger.info(WELCOME)
 
     if args.url:
@@ -53,7 +54,7 @@ if __name__ == "__main__":
         logger.info(NO_URL_PROVIDED)
         if os.path.isfile(args.file_json):
             logger.info(JSON_FOUND)
-            playlist = read_json(args.file_json)
+            # playlist = read_json(args.file_json)
         else:
             logger.info(NOT_JSON_FILE)
 
@@ -64,13 +65,12 @@ if __name__ == "__main__":
                 read_json(args.file_json),
                 args.output_path,
             )
-        else:
-            missing_videos = read_json(args.file_json)
+
         if len(missing_videos) != 0:
             logger.info(DOWNLOADING_VIDEOS_MESSAGE.format(len(missing_videos)))
-            make_download_directory(args.output_path)
             for video in missing_videos:
-                download_yt(video["url"], args.output_path + "/audio/")
+                download_yt(video["url"], os.path.join(args.output_path + "audio/"))
+            logger.info(ALL_DOWNLOADED)
         else:
             logger.info(ALL_DOWNLOADED)
     else:
@@ -79,12 +79,11 @@ if __name__ == "__main__":
     if args.transcribe:
         logger.info(TRANSCRIPT_FLAG)
         make_transcript_directory(args.output_path)
-        for audio in os.listdir(args.output_path + "/audio"):
+        for audio in os.listdir(os.path.join(args.output_path + "audio/")):
             transcribe(
                 args.model_dimension,
-                os.path.join(args.output_path + "/audio", audio),
-                args.output_path + "/transcripts",
+                os.path.join(args.output_path + "audio/", audio),
+                os.path.join(args.output_path + "transcripts/"),
             )
 
     logger.info(END)
-    exit()
