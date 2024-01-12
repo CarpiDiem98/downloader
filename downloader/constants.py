@@ -19,8 +19,7 @@ END = """
 ALL_DOWNLOADED = """
      _______________________________
     |                               |
-    |  All videos already downloaded|
-    |  Nothing to do =)             |
+    |  All videos downloaded        |
     |_______________________________|
 """
 
