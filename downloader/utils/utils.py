@@ -27,9 +27,17 @@ def compare_and_merge_lists(old, new):
         return new
 
 
-def compare_list_to_folder(list: list, folder: str):
+def compare_list_to_folder_audio(list: list, folder: str):
     files_in_folder = [
         f[:-4] for f in os.listdir(folder) if f.endswith(".mp3")
+    ]  # rimuove l'estensione .mp3
+
+    return [item for item in list if item["title"] not in files_in_folder]
+
+
+def compare_list_to_folder_video(list: list, folder: str):
+    files_in_folder = [
+        f[:-4] for f in os.listdir(folder) if f.endswith(".mp4")
     ]  # rimuove l'estensione .mp4
 
     return [item for item in list if item["title"] not in files_in_folder]
