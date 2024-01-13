@@ -17,6 +17,7 @@ def download_audio(url, output_path):
                 "preferredquality": "192",
             },
         ],
+        "quiet": True,
     }
 
     if isinstance(url, list):
@@ -38,6 +39,7 @@ def download_video(url, output_path):
                 "preferedformat": "mp4",
             }
         ],
+        "quiet": True,
     }
     if isinstance(url, list):
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
