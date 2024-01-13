@@ -59,8 +59,13 @@ def rename_files(output_path):
         os.rename(old_file_path, new_file_path)
 
 
-def download_yt(url, output_path):
+def download_yt_audio(url, output_path):
     download_audio(url, output_path)
+    rename_files(output_path)
+
+
+def download_yt_video(url, output_path):
+    download_video(url, output_path)
     rename_files(output_path)
 
 
