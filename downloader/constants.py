@@ -16,10 +16,16 @@ END = """
     |_______________________________|
 """
 
-ALL_DOWNLOADED = """
+ALL_VIDEO_DOWNLOADED = """
      _______________________________
     |                               |
     |  All videos downloaded        |
+    |_______________________________|
+"""
+ALL_AUDIO_DOWNLOADED = """
+     _______________________________
+    |                               |
+    |  All audios downloaded        |
     |_______________________________|
 """
 
@@ -65,7 +71,14 @@ TRANSCRIPT_FLAG = """
 DOWNLOADING_VIDEOS_MESSAGE = """
      _______________________________
     |                               |
-    |  Downloading  {} videos        |
+    |  Downloading  {} videos       |
+    |  Please wait...               |
+    |_______________________________|
+"""
+DOWNLOADING_AUDIO_MESSAGE = """
+     _______________________________
+    |                               |
+    |  Downloading  {} audio        |
     |  Please wait...               |
     |_______________________________|
 """
@@ -73,5 +86,12 @@ JSON_FOUND = """
          _______________________________
         |                               |
         |  Json file found.             |
+        |_______________________________|
+"""
+NO_OUTPUT_PATH = """
+         _______________________________
+        |                               |
+        |  No output path provided.     |
+        |  For help, use --help module  |
         |_______________________________|
 """
