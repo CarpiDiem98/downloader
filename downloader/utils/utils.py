@@ -13,6 +13,7 @@ def _make_directory(directory):
 def make_download_directory(directory):
     _make_directory(directory)
     _make_directory(os.path.join(directory, "audio"))
+    _make_directory(os.path.join(directory, "video"))
 
 
 def make_transcript_directory(directory):
@@ -51,4 +52,5 @@ def std_str(string: str):
         .replace("⧸", "_")
         .replace("｜", "")
         .replace("|", "")
+        .replace("__", "_")
     )
