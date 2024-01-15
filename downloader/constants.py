@@ -92,6 +92,7 @@ NO_OUTPUT_PATH = """
          _______________________________
         |                               |
         |  No output path provided.     |
+        |  Default pat: output/         |
         |  For help, use --help module  |
         |_______________________________|
 """
