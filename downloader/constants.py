@@ -71,14 +71,14 @@ TRANSCRIPT_FLAG = """
 DOWNLOADING_VIDEOS_MESSAGE = """
      _______________________________
     |                               |
-    |  Downloading  {} videos       |
+    |  Downloading {:<3} videos     |
     |  Please wait...               |
     |_______________________________|
 """
 DOWNLOADING_AUDIO_MESSAGE = """
      _______________________________
     |                               |
-    |  Downloading  {} audio        |
+    |  Downloading {:<3} audio      |
     |  Please wait...               |
     |_______________________________|
 """
