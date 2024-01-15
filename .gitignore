@@ -5,3 +5,4 @@ __pycache__/
 
 output/**
 downloader/notebooks/
+hand_landmarker.task
