@@ -1,9 +1,8 @@
 from downloader.logger.logger import logger
+from downloader.utils.utils import std_str
 import yt_dlp
 import ffmpeg
 import os
-
-from downloader.utils.utils import std_str
 
 
 def download_audio(url, output_path):
