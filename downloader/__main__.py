@@ -62,34 +62,60 @@ if __name__ == "__main__":
         else:
             logger.info(NOT_JSON_FILE)
 
+    if args.output_path:
+        make_download_directory(args.output_path)
+        missing_audios = compare_list_to_folder_audio(
+            read_json(args.file_json),
+            os.path.join(args.output_path, "audio/"),
+        )
+        missing_videos = compare_list_to_folder_video(
+            read_json(args.file_json),
+            os.path.join(args.output_path, "video/"),
+        )
+    else:
+        logger.info(NO_OUTPUT_PATH)
+
     if args.download:
-        if args.output_path:
-            make_download_directory(args.output_path)
-            missing_audios = compare_list_to_folder_audio(
-                read_json(args.file_json),
-                os.path.join(args.output_path, "audio/"),
-            )
-            missing_videos = compare_list_to_folder_video(
-                read_json(args.file_json),
-                os.path.join(args.output_path, "video/"),
-            )
-            if len(missing_audios) != 0:
-                logger.info(DOWNLOADING_AUDIO_MESSAGE.format(len(missing_videos)))
-                for audio in missing_audios:
-                    download_yt_audio(
-                        audio["url"], os.path.join(args.output_path, "audio/")
-                    )
-            else:
-                logger.info(ALL_AUDIO_DOWNLOADED)
-            if len(missing_videos) != 0:
-                logger.info(DOWNLOADING_VIDEOS_MESSAGE.format(len(missing_videos)))
-                for video in missing_videos:
-                    download_yt_video(
-                        video["url"], os.path.join(args.output_path, "video/")
-                    )
-            logger.info(ALL_VIDEO_DOWNLOADED)
+        if len(missing_audios) != 0:
+            logger.info(DOWNLOADING_AUDIO_MESSAGE.format(len(missing_videos)))
+            for audio in missing_audios:
+                logger.info(audio["url"])
+                download_yt_audio(
+                    audio["url"], os.path.join(args.output_path, "audio/")
+                )
         else:
-            logger.info(NO_OUTPUT_PATH)
+            logger.info(ALL_AUDIO_DOWNLOADED)
+
+        if len(missing_videos) != 0:
+            logger.info(DOWNLOADING_VIDEOS_MESSAGE.format(len(missing_videos)))
+            for video in missing_videos:
+                logger.info(video["url"])
+                download_yt_video(
+                    video["url"], os.path.join(args.output_path, "video/")
+                )
+        logger.info(ALL_VIDEO_DOWNLOADED)
+
+    elif not args.download and args.download_audio:
+        if len(missing_audios) != 0:
+            logger.info(DOWNLOADING_AUDIO_MESSAGE.format(len(missing_videos)))
+            for audio in missing_audios:
+                logger.info(audio["url"])
+                download_yt_audio(
+                    audio["url"], os.path.join(args.output_path, "audio/")
+                )
+        else:
+            logger.info(ALL_AUDIO_DOWNLOADED)
+
+    elif not args.download and args.download_video:
+        if len(missing_videos) != 0:
+            logger.info(DOWNLOADING_VIDEOS_MESSAGE.format(len(missing_videos)))
+            for video in missing_videos:
+                logger.info(video["url"])
+                download_yt_video(
+                    video["url"], os.path.join(args.output_path, "video/")
+                )
+        else:
+            logger.info(ALL_VIDEO_DOWNLOADED)
     else:
         logger.info(NO_DOWNLOAD_FLAG)
 
