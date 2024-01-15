@@ -26,7 +26,9 @@ usage: [-h] [--url URL] [--type TYPE] [--download DOWNLOAD] [--output_path OUTPU
   -h, --help        HELP                show this help message and exit
   --url             URL                 url of the video or playlist
   --type            TYPE                type of the url [playlist/video]
-  --download        DOWNLOAD            download the audio
+  --download        DOWNLOAD            download video and audio
+  --download_video  DOWNLOAD_VIDEO      download only video
+  --download_audio  DOWNLOAD_AUDIO      download only audio
   --output_path     OUTPUT_PATH         folder output
   --file_json       FILE_JSON           path to the json file
   --transcribe      TRANSCRIBE          transcribe the audio inside the video
