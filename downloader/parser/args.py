@@ -21,6 +21,16 @@ def init_parser():
         help="download the videos",
     )
     parser.add_argument(
+        "--download_video",
+        type=bool,
+        help="download the videos",
+    )
+    parser.add_argument(
+        "--download_audio",
+        type=bool,
+        help="download the audio",
+    )
+    parser.add_argument(
         "--output_path",
         type=str,
         default="output/",
