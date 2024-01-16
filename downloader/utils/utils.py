@@ -53,4 +53,5 @@ def std_str(string: str):
         .replace("｜", "")
         .replace("|", "")
         .replace("__", "_")
+        .replace("__", "_")
     )
