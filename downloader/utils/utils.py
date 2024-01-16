@@ -33,7 +33,8 @@ def compare_list_to_folder_audio(list: list, folder: str):
         f[:-4] for f in os.listdir(folder) if f.endswith(".mp3")
     ]  # rimuove l'estensione .mp3
 
-    return [item for item in list if item["title"] not in files_in_folder]
+    missings = [item for item in list if item["title"] not in files_in_folder]
+    return [item["url"] for item in missings]
 
 
 def compare_list_to_folder_video(list: list, folder: str):
@@ -41,7 +42,8 @@ def compare_list_to_folder_video(list: list, folder: str):
         f[:-4] for f in os.listdir(folder) if f.endswith(".mp4")
     ]  # rimuove l'estensione .mp4
 
-    return [item for item in list if item["title"] not in files_in_folder]
+    missings = [item for item in list if item["title"] not in files_in_folder]
+    return [item["url"] for item in missings]
 
 
 def std_str(string: str):
