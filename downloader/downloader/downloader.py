@@ -61,12 +61,18 @@ def rename_files(output_path):
 
 
 def download_yt_audio(url, output_path):
-    download_audio(url, output_path)
+    try:
+        download_audio(url, output_path)
+    except:
+        logger.error(f"Error downloading: {url}")
     rename_files(output_path)
 
 
 def download_yt_video(url, output_path):
-    download_video(url, output_path)
+    try:
+        download_video(url, output_path)
+    except:
+        logger.error(f"Error downloading: {url}")
     rename_files(output_path)
 
 
