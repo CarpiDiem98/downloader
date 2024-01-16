@@ -9,6 +9,10 @@ class DownloaderAudio:
     def __init__(self, output_path):
         self.output_path = output_path
 
+    def download_audios(self, urls, max_workers=5):
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            return list(executor.map(self._download_audio, urls))
+
     def download_yt_audio(self, urls):
         try:
             self._download_audio(urls, self.output_path)
