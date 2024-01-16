@@ -9,7 +9,7 @@ from downloader.utils.utils import (
     make_download_directory,
     make_transcript_directory,
 )
-from downloader.downloader.downloader import download_yt_audio, download_yt_video
+from downloader.downloader.downloader import DownloaderVideo, DownloaderAudio
 from downloader.logger.logger import logger
 from pytube import Playlist, YouTube
 import os
@@ -33,7 +33,6 @@ from downloader.constants import (
 
 if __name__ == "__main__":
     args = init_parser()
-
     logger.info(WELCOME)
 
     if args.url:
@@ -76,44 +75,32 @@ if __name__ == "__main__":
         logger.info(NO_OUTPUT_PATH)
 
     if args.download:
+        downloader_video = DownloaderVideo(args.output_path)
+        downloader_audio = DownloaderAudio(args.output_path)
         if len(missing_audios) != 0:
             logger.info(DOWNLOADING_AUDIO_MESSAGE.format(len(missing_videos)))
-            for audio in missing_audios:
-                logger.info(audio["url"])
-                download_yt_audio(
-                    audio["url"], os.path.join(args.output_path, "audio/")
-                )
+            downloader_audio.download_yt_audio(missing_audios)
         else:
             logger.info(ALL_AUDIO_DOWNLOADED)
 
         if len(missing_videos) != 0:
             logger.info(DOWNLOADING_VIDEOS_MESSAGE.format(len(missing_videos)))
-            for video in missing_videos:
-                logger.info(video["url"])
-                download_yt_video(
-                    video["url"], os.path.join(args.output_path, "video/")
-                )
+            downloader_video.download_yt_video(missing_videos)
         logger.info(ALL_VIDEO_DOWNLOADED)
 
     elif not args.download and args.download_audio:
+        downloader_audio = DownloaderAudio(args.output_path)
         if len(missing_audios) != 0:
             logger.info(DOWNLOADING_AUDIO_MESSAGE.format(len(missing_videos)))
-            for audio in missing_audios:
-                logger.info(audio["url"])
-                download_yt_audio(
-                    audio["url"], os.path.join(args.output_path, "audio/")
-                )
+            downloader_audio.download_yt_audio(missing_audios)
         else:
             logger.info(ALL_AUDIO_DOWNLOADED)
 
     elif not args.download and args.download_video:
+        downloader_video = DownloaderVideo(args.output_path)
         if len(missing_videos) != 0:
             logger.info(DOWNLOADING_VIDEOS_MESSAGE.format(len(missing_videos)))
-            for video in missing_videos:
-                logger.info(video["url"])
-                download_yt_video(
-                    video["url"], os.path.join(args.output_path, "video/")
-                )
+            downloader_video.download_videos(missing_videos)
         else:
             logger.info(ALL_VIDEO_DOWNLOADED)
     else:
