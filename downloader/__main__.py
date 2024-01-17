@@ -2,6 +2,7 @@ from downloader.parser.args import init_parser
 from downloader.annotations import generate_from_playlist, generate_from_video
 from downloader.transcribe.transcribe import transcribe
 from downloader.utils.json_crud import create_json, read_json
+from downloader.utils.transformation import crop_left_side
 from downloader.utils.utils import (
     compare_and_merge_lists,
     compare_list_to_folder_audio,
@@ -28,6 +29,7 @@ from downloader.constants import (
     JSON_FOUND,
     DOWNLOADING_AUDIO_MESSAGE,
     NO_OUTPUT_PATH,
+    CROPPING_VIDEO,
 )
 
 
@@ -116,4 +118,14 @@ if __name__ == "__main__":
                 os.path.join(args.output_path + "transcripts/"),
             )
 
+    logger.info(CROPPING_VIDEO)
+    videos = os.listdir(os.path.join(args.output_path + "video/"))
+    for video in videos:
+        crop_left_side(
+            os.path.join("/home/emanuele/downloader/output", "video/", video),
+            os.path.join(
+                "/home/emanuele/downloader/output/cropped_video/",
+                video.replace(".mp4", "_cropped.mp4"),
+            ),
+        )
     logger.info(END)
