@@ -1,5 +1,5 @@
 from moviepy.video.io.VideoFileClip import VideoFileClip
-from moviepy.video.fx.all import crop
+from moviepy.video.fx import crop
 
 
 def crop_left_side(input_file, output_file):
