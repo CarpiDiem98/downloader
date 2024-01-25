@@ -36,6 +36,7 @@ from downloader.constants import (
 if __name__ == "__main__":
     args = init_parser()
     logger.info(WELCOME)
+    make_download_directory(args.output_path)
 
     if args.url:
         logger.info(f"URL provided: {args.url}")
@@ -64,7 +65,6 @@ if __name__ == "__main__":
             logger.info(NOT_JSON_FILE)
 
     if args.output_path:
-        make_download_directory(args.output_path)
         missing_audios = compare_list_to_folder_audio(
             read_json(args.file_json),
             os.path.join(args.output_path, "audio/"),
@@ -110,7 +110,6 @@ if __name__ == "__main__":
 
     if args.transcribe:
         logger.info(TRANSCRIPT_FLAG)
-        make_transcript_directory(args.output_path)
         for audio in os.listdir(os.path.join(args.output_path + "audio/")):
             transcribe(
                 args.model_dimension,
@@ -124,7 +123,7 @@ if __name__ == "__main__":
         crop_left_side(
             os.path.join("/home/emanuele/downloader/output", "video/", video),
             os.path.join(
-                "/home/emanuele/downloader/output/cropped_video/",
+                "/home/emanuele/downloader/output/video_cropped/",
                 video.replace(".mp4", "_cropped.mp4"),
             ),
         )
