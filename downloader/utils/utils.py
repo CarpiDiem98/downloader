@@ -14,10 +14,7 @@ def make_download_directory(directory):
     _make_directory(directory)
     _make_directory(os.path.join(directory, "audio"))
     _make_directory(os.path.join(directory, "video"))
-
-
-def make_transcript_directory(directory):
-    _make_directory(directory)
+    _make_directory(os.path.join(directory, "video_cropped"))
     _make_directory(os.path.join(directory, "transcripts"))
 
 
