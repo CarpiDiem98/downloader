@@ -8,7 +8,6 @@ from downloader.utils.utils import (
     compare_list_to_folder_audio,
     compare_list_to_folder_video,
     make_download_directory,
-    make_transcript_directory,
 )
 from downloader.downloader.downloader import DownloaderVideo, DownloaderAudio
 from downloader.logger.logger import logger
