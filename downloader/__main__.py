@@ -1,8 +1,8 @@
 from downloader.parser.args import init_parser
-from downloader.annotations import generate_from_playlist, generate_from_video
-from downloader.transcribe.transcribe import transcribe
+from downloader.parser.annotations import generate_from_playlist, generate_from_video
+from downloader.transcribe.transcribe import transcribe, convert_txt_to_xlsx
 from downloader.utils.json_crud import create_json, read_json
-from downloader.utils.transformation import crop_left_side
+from downloader.utils.transformation import cut_videos, darken_right_half
 from downloader.utils.utils import (
     compare_and_merge_lists,
     compare_list_to_folder_audio,
@@ -10,10 +10,10 @@ from downloader.utils.utils import (
     make_download_directory,
 )
 from downloader.downloader.downloader import DownloaderVideo, DownloaderAudio
-from downloader.logger.logger import logger
+from downloader import logger
 from pytube import Playlist, YouTube
 import os
-from downloader.constants import (
+from downloader.parser.constants import (
     DOWNLOADING_VIDEOS_MESSAGE,
     WELCOME,
     END,
@@ -28,7 +28,8 @@ from downloader.constants import (
     JSON_FOUND,
     DOWNLOADING_AUDIO_MESSAGE,
     NO_OUTPUT_PATH,
-    CROPPING_VIDEO,
+    DIMMING_VIDEO,
+    CROP_VIDEO,
 )
 
 
@@ -110,20 +111,31 @@ if __name__ == "__main__":
     if args.transcribe:
         logger.info(TRANSCRIPT_FLAG)
         for audio in os.listdir(os.path.join(args.output_path + "audio/")):
-            transcribe(
+            file_txt_path = transcribe(
                 args.model_dimension,
                 os.path.join(args.output_path + "audio/", audio),
                 os.path.join(args.output_path + "transcripts/"),
             )
+            logger.info("Convert transcripts to xlsx file and save it")
+            file_xlsx_path = os.path.join(
+                args.output_path,
+                "xlsx",
+                os.path.basename(file_txt_path).replace(".txt", ".xlsx"),
+            )
+            convert_txt_to_xlsx(file_txt_path, file_xlsx_path)
 
-    logger.info(CROPPING_VIDEO)
-    videos = os.listdir(os.path.join(args.output_path + "video/"))
-    for video in videos:
-        crop_left_side(
-            os.path.join("/home/emanuele/downloader/output", "video/", video),
-            os.path.join(
-                "/home/emanuele/downloader/output/video_cropped/",
-                video.replace(".mp4", "_cropped.mp4"),
-            ),
+    logger.info(DIMMING_VIDEO)
+    # prende il video e gli mette il blackscreen
+    for video in os.listdir(os.path.join(args.output_path, "video/")):
+        darken_right_half(
+            os.path.join(args.output_path, "video/", video),
+            os.path.join(args.output_path + "video_blind/"),
         )
+
+    logger.info(CROP_VIDEO)
+    cut_videos(
+        os.path.join(args.output_path, "xlsx/"),
+        os.path.join(args.output_path, "video/"),
+        args.output_path,
+    )
     logger.info(END)
