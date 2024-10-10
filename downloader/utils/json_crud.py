@@ -1,5 +1,5 @@
 from typing import Dict, List
-from downloader.logger.logger import logger
+from downloader import logger
 import json
 
 

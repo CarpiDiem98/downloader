@@ -1,4 +1,4 @@
-from downloader.logger.logger import logger
+from downloader import logger
 import os
 
 
@@ -16,6 +16,7 @@ def make_download_directory(directory):
     _make_directory(os.path.join(directory, "video"))
     _make_directory(os.path.join(directory, "video_cropped"))
     _make_directory(os.path.join(directory, "transcripts"))
+    _make_directory(os.path.join(directory, "xlsx"))
 
 
 def compare_and_merge_lists(old, new):
