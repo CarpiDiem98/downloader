@@ -1,5 +1,5 @@
 from pytube import Playlist, YouTube
-from downloader.logger.logger import logger
+from downloader import logger
 from downloader.utils.utils import std_str
 
 

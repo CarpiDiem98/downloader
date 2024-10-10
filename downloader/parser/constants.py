@@ -1,7 +1,7 @@
 WELCOME = """
      _______________________________
     |                               |
-    |  Starting Downloader v0.0.1   |
+    |  Starting Downloader v1.2.0   |
     |  For help, use --help module  |
     |  by: Carpi                    |
     |_______________________________|
@@ -15,10 +15,17 @@ END = """
     |  by: Carpi                    |
     |_______________________________|
 """
-CROPPING_VIDEO = """
+CROP_VIDEO = """
     _______________________________
     |                               |
     |  Cropping videos              |
+    |  Please wait...               |
+    |_______________________________|
+"""
+DIMMING_VIDEO = """
+    _______________________________
+    |                               |
+    |  Dimming videos               |
     |  Please wait...               |
     |_______________________________|
 """
